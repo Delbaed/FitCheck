@@ -2209,11 +2209,32 @@
 
       meshes: [
         {
-
           // External mesh
           url: "./assets/humans.obj",
 
           name: "Human Model",
+          x: 0.0, y: bodyModelProfile.y +5.0, z: 0.0,
+          rx: 0.0, ry: 5.0, rz: 0.0,
+          scale: bodyModelProfile.meshScale,
+          doubleSided: false,
+          transparent: true
+        },
+        {
+          // External mesh
+          url: "./assets/zaraTshirt1.obj",
+
+          name: "tshirt",
+          x: 0.0, y: bodyModelProfile.y +45.0, z: 0.0,
+          rx: 0.0, ry: 5.0, rz: 0.0,
+          scale: bodyModelProfile.meshScale*1.5,
+          doubleSided: false,
+          transparent: true
+        },
+        {
+          // External mesh
+          url: "./assets/combined.obj",
+
+          name: "combined",
           x: 0.0, y: bodyModelProfile.y +5.0, z: 0.0,
           rx: 0.0, ry: 5.0, rz: 0.0,
           scale: bodyModelProfile.meshScale,
