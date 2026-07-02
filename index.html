@@ -665,6 +665,15 @@
       width: 220px;
       height: 430px;
       filter: drop-shadow(0 22px 32px rgba(61, 64, 54, 0.14));
+      transform: scale(var(--body-width-scale, 1), var(--body-height-scale, 1));
+      transform-origin: 50% 92%;
+      transition: transform 420ms ease;
+      will-change: transform;
+    }
+
+    .human-wireframe canvas {
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .head,
@@ -1076,12 +1085,10 @@
       }
 
       .human-wireframe {
-        transform: scale(0.82);
+        transform: scale(calc(var(--body-width-scale, 1) * 0.82), calc(var(--body-height-scale, 1) * 0.82));
       }
     }
   </style>
-  
-                <script src="https://cdn.rawgit.com/gportelli/pocket.gl/v1.2.4/dist/pocket.gl.min.js"></script>
 </head>
 
 <body>
@@ -1308,7 +1315,7 @@
 
             <div class="model-stage" id="modelMount" aria-label="3D model placeholder">
               <div class="scan-line"></div>
-              <div class="human-wireframe" aria-hidden="true">
+              <div class="human-wireframe" id="coolBox" aria-hidden="true">
                 <div id="container" style="position: relative; width:640px;"></div>
               </div>
               <div class="model-label">
@@ -1435,6 +1442,14 @@
       currentUnit: "cm",
       currentUserEmail: localStorage.getItem(CURRENT_USER_KEY) || "",
     };
+
+    const BODY_MODEL_BASE = Object.freeze({
+      height: 170,
+      chest: 92,
+      waist: 74,
+      hips: 98,
+      shoulder: 41,
+    });
 
     const pages = {
       auth: document.getElementById("authPage"),
@@ -1597,6 +1612,45 @@
       return `${fromCentimetres(Number(value), unit).toFixed(1)} ${unit}`;
     }
 
+    function measurementRatio(measurements, key, fallback = 1) {
+      const value = Number(measurements?.[key]);
+      const base = BODY_MODEL_BASE[key];
+      return value > 0 && base > 0 ? value / base : fallback;
+    }
+
+    function getBodyModelProfile(measurements) {
+      const heightRatio = clamp(measurementRatio(measurements, "height"), 0.82, 1.18);
+      const shoulderRatio = measurementRatio(measurements, "shoulder");
+      const chestRatio = measurementRatio(measurements, "chest");
+      const waistRatio = measurementRatio(measurements, "waist");
+      const hipRatio = measurementRatio(measurements, "hips");
+      const widthRatio = clamp(
+        shoulderRatio * 0.42 + chestRatio * 0.25 + waistRatio * 0.13 + hipRatio * 0.2,
+        0.78,
+        1.24
+      );
+      const depthRatio = clamp(chestRatio * 0.45 + waistRatio * 0.2 + hipRatio * 0.35, 0.82, 1.18);
+
+      return {
+        heightScale: heightRatio,
+        widthScale: widthRatio,
+        depthScale: depthRatio,
+        meshScale: 20,
+        y: -40,
+      };
+    }
+
+    function updateBodyModelScale(measurements) {
+      const profile = getBodyModelProfile(measurements);
+      const modelMount = $("coolBox");
+      if (modelMount) {
+        modelMount.style.setProperty("--body-width-scale", profile.widthScale.toFixed(3));
+        modelMount.style.setProperty("--body-height-scale", profile.heightScale.toFixed(3));
+      }
+      window.fitCheckBodyModelProfile = profile;
+      return profile;
+    }
+
     function normalizeEmail(value) {
       return String(value || "").trim().toLowerCase();
     }
@@ -1695,6 +1749,7 @@
       state.currentUserEmail = "";
       localStorage.removeItem(CURRENT_USER_KEY);
       refreshHeader();
+      updateBodyModelScale(null);
       setAuthMode("signup");
       showPage("auth");
     }
@@ -1812,6 +1867,7 @@
         </div>
       `).join("");
 
+      updateBodyModelScale(m);
       renderHistory();
     }
 
@@ -2077,6 +2133,7 @@
       elements.itemSizingForm.reset();
       elements.measurementsForm.reset();
       elements.fitResultCard.classList.remove("show");
+      updateBodyModelScale(null);
       refreshHeader();
       setAuthMode("signup");
       showPage("auth");
@@ -2137,6 +2194,7 @@
 
     attachEvents();
     setUnit("cm");
+    updateBodyModelScale(getCurrentUser()?.measurements || null);
     initFromHash();
   </script>
 
@@ -2144,62 +2202,10 @@
   <script>
 
 
-    new PocketGL("modelMount", {
-      vertexShader: [`
-attribute vec3 position;
-attribute vec3 normal;
-uniform mat4 projection, modelview, normalMat;
-varying vec3 normalInterp;
-varying vec3 vertPos;
-uniform int mode;   // Rendering mode
-uniform float Ka;   // Ambient reflection coefficient
-uniform float Kd;   // Diffuse reflection coefficient
-uniform float Ks;   // Specular reflection coefficient
-uniform float shininessVal; // Shininess
-// Material color
-uniform vec3 ambientColor;
-uniform vec3 diffuseColor;
-uniform vec3 specularColor;
-uniform vec3 lightPos; // Light position
-varying vec4 color; //color
+    const savedBodyProfile = getCurrentUser()?.measurements || null;
+    const bodyModelProfile = updateBodyModelScale(savedBodyProfile);
 
-void main(){
-  vec4 vertPos4 = modelview * vec4(position, 1.0);
-  vertPos = vec3(vertPos4) / vertPos4.w;
-  normalInterp = vec3(normalMat * vec4(normal, 0.0));
-  gl_Position = projection * vertPos4;
-
-  vec3 N = normalize(normalInterp);
-  vec3 L = normalize(lightPos - vertPos);
-  // Lambert's cosine law
-  float lambertian = max(dot(N, L), 0.0);
-  float specular = 0.0;
-  if(lambertian > 0.0) {
-    vec3 R = reflect(-L, N);      // Reflected light vector
-    vec3 V = normalize(-vertPos); // Vector to viewer
-    // Compute the specular term
-    float specAngle = max(dot(R, V), 0.0);
-    specular = pow(specAngle, shininessVal);
-  }
-  color = vec4(Ka * ambientColor +
-               Kd * lambertian * diffuseColor +
-               Ks * specular * specularColor, 1.0);
-
-  // only ambient
-  if(mode == 2) color = vec4(Ka * ambientColor, 1.0);
-  // only diffuse
-  if(mode == 3) color = vec4(Kd * lambertian * diffuseColor, 1.0);
-  // only specular
-  if(mode == 4) color = vec4(Ks * specular * specularColor, 1.0);
-}
-`].join("\n"),
-
-      fragmentShader: [`
-precision mediump float;
-varying vec4 color;
-void main() {
-  gl_FragColor = color;
-}`].join("\n"),
+    new PocketGL("coolBox", {
 
       meshes: [
         {
@@ -2208,9 +2214,9 @@ void main() {
           url: "./assets/humans.obj",
 
           name: "Human Model",
-          x: 0.0, y: 0.0, z: 0.0,
-          rx: 0.0, ry: 0.0, rz: 0.0,
-          scale: 1.0,
+          x: 0.0, y: bodyModelProfile.y +5.0, z: 0.0,
+          rx: 0.0, ry: 5.0, rz: 0.0,
+          scale: bodyModelProfile.meshScale,
           doubleSided: false,
           transparent: true
         }
