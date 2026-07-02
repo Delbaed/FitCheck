@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -231,8 +232,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .hero-grid {
@@ -303,7 +311,10 @@
       letter-spacing: 0.08em;
     }
 
-    h1, h2, h3, p {
+    h1,
+    h2,
+    h3,
+    p {
       margin-top: 0;
     }
 
@@ -499,9 +510,20 @@
       display: block;
     }
 
-    .toast.success { border-color: rgba(95, 115, 83, 0.42); background: rgba(234, 235, 224, 0.86); }
-    .toast.warning { border-color: rgba(155, 116, 66, 0.38); background: rgba(227, 228, 214, 0.86); }
-    .toast.error { border-color: rgba(145, 79, 73, 0.38); background: rgba(241, 241, 235, 0.9); }
+    .toast.success {
+      border-color: rgba(95, 115, 83, 0.42);
+      background: rgba(234, 235, 224, 0.86);
+    }
+
+    .toast.warning {
+      border-color: rgba(155, 116, 66, 0.38);
+      background: rgba(227, 228, 214, 0.86);
+    }
+
+    .toast.error {
+      border-color: rgba(145, 79, 73, 0.38);
+      background: rgba(241, 241, 235, 0.9);
+    }
 
     .measurement-layout {
       display: grid;
@@ -681,10 +703,39 @@
       border-radius: 46% 46% 36% 36%;
     }
 
-    .arm.left { width: 36px; height: 184px; left: 16px; top: 100px; border-radius: 999px; transform: rotate(8deg); }
-    .arm.right { width: 36px; height: 184px; right: 16px; top: 100px; border-radius: 999px; transform: rotate(-8deg); }
-    .leg.left { width: 44px; height: 158px; left: 59px; top: 312px; border-radius: 999px; }
-    .leg.right { width: 44px; height: 158px; right: 59px; top: 312px; border-radius: 999px; }
+    .arm.left {
+      width: 36px;
+      height: 184px;
+      left: 16px;
+      top: 100px;
+      border-radius: 999px;
+      transform: rotate(8deg);
+    }
+
+    .arm.right {
+      width: 36px;
+      height: 184px;
+      right: 16px;
+      top: 100px;
+      border-radius: 999px;
+      transform: rotate(-8deg);
+    }
+
+    .leg.left {
+      width: 44px;
+      height: 158px;
+      left: 59px;
+      top: 312px;
+      border-radius: 999px;
+    }
+
+    .leg.right {
+      width: 44px;
+      height: 158px;
+      right: 59px;
+      top: 312px;
+      border-radius: 999px;
+    }
 
     .scan-line {
       position: absolute;
@@ -697,8 +748,17 @@
     }
 
     @keyframes scan {
-      0%, 100% { top: 17%; opacity: 0.25; }
-      50% { top: 80%; opacity: 0.82; }
+
+      0%,
+      100% {
+        top: 17%;
+        opacity: 0.25;
+      }
+
+      50% {
+        top: 80%;
+        opacity: 0.82;
+      }
     }
 
     .model-label {
@@ -867,10 +927,29 @@
       border: 1px solid var(--line);
     }
 
-    .tag.good { background: rgba(95, 115, 83, 0.12); color: #3f5a34; border: 1px solid rgba(95, 115, 83, 0.26); }
-    .tag.tight { background: rgba(145, 79, 73, 0.12); color: #703d38; border: 1px solid rgba(145, 79, 73, 0.26); }
-    .tag.loose { background: rgba(155, 116, 66, 0.13); color: #715023; border: 1px solid rgba(155, 116, 66, 0.26); }
-    .tag.note { background: rgba(220, 221, 204, 0.66); color: var(--subtle); border: 1px solid var(--line); }
+    .tag.good {
+      background: rgba(95, 115, 83, 0.12);
+      color: #3f5a34;
+      border: 1px solid rgba(95, 115, 83, 0.26);
+    }
+
+    .tag.tight {
+      background: rgba(145, 79, 73, 0.12);
+      color: #703d38;
+      border: 1px solid rgba(145, 79, 73, 0.26);
+    }
+
+    .tag.loose {
+      background: rgba(155, 116, 66, 0.13);
+      color: #715023;
+      border: 1px solid rgba(155, 116, 66, 0.26);
+    }
+
+    .tag.note {
+      background: rgba(220, 221, 204, 0.66);
+      color: var(--subtle);
+      border: 1px solid var(--line);
+    }
 
     .history-list {
       display: grid;
@@ -942,6 +1021,7 @@
     }
 
     @media (max-width: 980px) {
+
       .hero-grid,
       .measurement-layout,
       .dashboard-layout {
@@ -1000,7 +1080,10 @@
       }
     }
   </style>
+  
+                <script src="https://cdn.rawgit.com/gportelli/pocket.gl/v1.2.4/dist/pocket.gl.min.js"></script>
 </head>
+
 <body>
   <div class="app-shell">
     <header>
@@ -1028,7 +1111,7 @@
               <div class="eyebrow">Soft neutral fit room prototype</div>
               <h1 id="authTitle">Buy clothes with better size confidence.</h1>
               <p class="lead">
-              FitCheck stores a user's body measurements, compares them with clothing item size charts,
+                FitCheck stores a user's body measurements, compares them with clothing item size charts,
                 and leaves a dedicated space for a future 3D body model that can preview how garments fit.
               </p>
             </div>
@@ -1052,7 +1135,8 @@
             <div class="toast" id="authToast"></div>
 
             <div class="tab-switcher" role="tablist" aria-label="Authentication mode">
-              <button class="tab-button active" id="signupTab" type="button" role="tab" aria-selected="true">Sign up</button>
+              <button class="tab-button active" id="signupTab" type="button" role="tab" aria-selected="true">Sign
+                up</button>
               <button class="tab-button" id="loginTab" type="button" role="tab" aria-selected="false">Log in</button>
             </div>
 
@@ -1068,15 +1152,18 @@
                 </div>
                 <div class="field full">
                   <label for="signupPassword">Password</label>
-                  <input id="signupPassword" name="signupPassword" type="password" minlength="6" placeholder="At least 6 characters" required />
-                  <span class="hint">Prototype only: passwords are stored in browser localStorage, not a secure database.</span>
+                  <input id="signupPassword" name="signupPassword" type="password" minlength="6"
+                    placeholder="At least 6 characters" required />
+                  <span class="hint">Prototype only: passwords are stored in browser localStorage, not a secure
+                    database.</span>
                 </div>
               </div>
               <div class="actions-row">
                 <button class="btn full" type="submit">Create account and add measurements</button>
               </div>
               <p class="auth-note">
-                After signing up, the app will prompt the user to enter clothing size measurements before opening the dashboard.
+                After signing up, the app will prompt the user to enter clothing size measurements before opening the
+                dashboard.
               </p>
             </form>
 
@@ -1195,7 +1282,8 @@
                 </div>
                 <div class="field full">
                   <label for="notesInput">Optional fit notes</label>
-                  <textarea id="notesInput" placeholder="Example: Usually sizes up for jackets, prefers loose sleeves..."></textarea>
+                  <textarea id="notesInput"
+                    placeholder="Example: Usually sizes up for jackets, prefers loose sleeves..."></textarea>
                 </div>
               </div>
               <div class="actions-row">
@@ -1221,14 +1309,7 @@
             <div class="model-stage" id="modelMount" aria-label="3D model placeholder">
               <div class="scan-line"></div>
               <div class="human-wireframe" aria-hidden="true">
-                    <script src="https://cdn.rawgit.com/gportelli/pocket.gl/v1.2.4/dist/pocket.gl.min.js">
-                    </script>
-
-                    <!-- create a container -->
-                    <div id="myContainer"></div>
-
-                    <!-- create the sandbox -->
-                    <script> new PocketGL("myContainer"); </script>
+                <div id="container" style="position: relative; width:640px;"></div>
               </div>
               <div class="model-label">
                 <span>Placeholder model</span>
@@ -1243,7 +1324,8 @@
             <div class="profile-strip glass-panel">
               <div>
                 <h3 id="welcomeHeading">Welcome</h3>
-                <p id="profileSummary">Enter an item's size chart to calculate how it may fit the saved body profile.</p>
+                <p id="profileSummary">Enter an item's size chart to calculate how it may fit the saved body profile.
+                </p>
               </div>
               <button class="btn secondary" id="quickSampleItemBtn" type="button">Try sample item</button>
             </div>
@@ -1303,7 +1385,8 @@
                   </div>
                   <div class="field full">
                     <label for="itemNotesInput">Item notes</label>
-                    <textarea id="itemNotesInput" placeholder="Paste size-chart notes or fabric stretch details here..."></textarea>
+                    <textarea id="itemNotesInput"
+                      placeholder="Paste size-chart notes or fabric stretch details here..."></textarea>
                   </div>
                 </div>
                 <div class="actions-row">
@@ -2056,5 +2139,86 @@
     setUnit("cm");
     initFromHash();
   </script>
+
+  <script src="https://cdn.rawgit.com/gportelli/pocket.gl/v1.2.4/dist/pocket.gl.min.js"></script>
+  <script>
+
+
+    new PocketGL("modelMount", {
+      vertexShader: [`
+attribute vec3 position;
+attribute vec3 normal;
+uniform mat4 projection, modelview, normalMat;
+varying vec3 normalInterp;
+varying vec3 vertPos;
+uniform int mode;   // Rendering mode
+uniform float Ka;   // Ambient reflection coefficient
+uniform float Kd;   // Diffuse reflection coefficient
+uniform float Ks;   // Specular reflection coefficient
+uniform float shininessVal; // Shininess
+// Material color
+uniform vec3 ambientColor;
+uniform vec3 diffuseColor;
+uniform vec3 specularColor;
+uniform vec3 lightPos; // Light position
+varying vec4 color; //color
+
+void main(){
+  vec4 vertPos4 = modelview * vec4(position, 1.0);
+  vertPos = vec3(vertPos4) / vertPos4.w;
+  normalInterp = vec3(normalMat * vec4(normal, 0.0));
+  gl_Position = projection * vertPos4;
+
+  vec3 N = normalize(normalInterp);
+  vec3 L = normalize(lightPos - vertPos);
+  // Lambert's cosine law
+  float lambertian = max(dot(N, L), 0.0);
+  float specular = 0.0;
+  if(lambertian > 0.0) {
+    vec3 R = reflect(-L, N);      // Reflected light vector
+    vec3 V = normalize(-vertPos); // Vector to viewer
+    // Compute the specular term
+    float specAngle = max(dot(R, V), 0.0);
+    specular = pow(specAngle, shininessVal);
+  }
+  color = vec4(Ka * ambientColor +
+               Kd * lambertian * diffuseColor +
+               Ks * specular * specularColor, 1.0);
+
+  // only ambient
+  if(mode == 2) color = vec4(Ka * ambientColor, 1.0);
+  // only diffuse
+  if(mode == 3) color = vec4(Kd * lambertian * diffuseColor, 1.0);
+  // only specular
+  if(mode == 4) color = vec4(Ks * specular * specularColor, 1.0);
+}
+`].join("\n"),
+
+      fragmentShader: [`
+precision mediump float;
+varying vec4 color;
+void main() {
+  gl_FragColor = color;
+}`].join("\n"),
+
+      meshes: [
+        {
+
+          // External mesh
+          url: "./assets/humans.obj",
+
+          name: "Human Model",
+          x: 0.0, y: 0.0, z: 0.0,
+          rx: 0.0, ry: 0.0, rz: 0.0,
+          scale: 1.0,
+          doubleSided: false,
+          transparent: true
+        }
+      ]
+    });
+
+
+  </script>
 </body>
+
 </html>
