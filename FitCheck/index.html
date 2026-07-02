@@ -251,6 +251,104 @@
       align-items: stretch;
     }
 
+    .auth-landing-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.78fr);
+      min-height: 650px;
+    }
+
+    .auth-brand-panel {
+      min-height: 650px;
+      gap: 34px;
+      justify-content: center;
+    }
+
+    .auth-logo-card {
+      width: min(360px, 86%);
+      padding: 22px;
+      margin-bottom: 28px;
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(248, 248, 245, 0.92), rgba(227, 228, 214, 0.72)),
+        var(--cream-200);
+      box-shadow: 0 22px 54px rgba(61, 64, 54, 0.12);
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-logo-large {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      border-radius: 22px;
+    }
+
+    .auth-brand-panel h1 {
+      max-width: 640px;
+      margin-top: 18px;
+      margin-bottom: 20px;
+      font-size: clamp(2.55rem, 6vw, 5rem);
+    }
+
+    .auth-brand-panel .lead {
+      max-width: 650px;
+    }
+
+    .auth-description-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-description-card {
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(248, 248, 245, 0.58);
+      box-shadow: 0 12px 30px rgba(61, 64, 54, 0.07);
+    }
+
+    .auth-description-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--primary-dark);
+      font-size: 0.96rem;
+    }
+
+    .auth-description-card span {
+      display: block;
+      color: var(--subtle);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .auth-card-panel {
+      min-height: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-self: stretch;
+      padding: clamp(24px, 4vw, 38px);
+    }
+
+    .auth-panel-heading {
+      margin-bottom: 20px;
+    }
+
+    .auth-panel-heading h2 {
+      margin-bottom: 8px;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+    }
+
+    .auth-panel-heading p {
+      margin: 0;
+      color: var(--subtle);
+      line-height: 1.55;
+    }
+
     .glass-panel {
       background:
         linear-gradient(180deg, rgba(248, 248, 245, 0.92), rgba(241, 241, 235, 0.78)),
@@ -957,6 +1055,12 @@
         grid-template-columns: 1fr;
       }
 
+      .auth-landing-grid,
+      .auth-brand-panel,
+      .auth-card-panel {
+        min-height: auto;
+      }
+
       .hero-copy {
         min-height: auto;
       }
@@ -992,8 +1096,13 @@
 
       .form-grid,
       .feature-row,
+      .auth-description-grid,
       .metric-grid {
         grid-template-columns: 1fr;
+      }
+
+      .auth-logo-card {
+        width: 100%;
       }
 
       .breakdown-item {
@@ -1014,7 +1123,7 @@
   <div class="app-shell">
     <header>
       <div class="brand" aria-label="FitCheck home">
-        <img src="\assets\FitCheck.png" alt="FitCheck Logo" class="logo-image">
+        <img src="assets/FitCheck.png" alt="FitCheck Logo" class="logo-image">
         <span>FitCheck</span>
       </div>
 
@@ -1031,18 +1140,43 @@
     <main>
       <!-- PAGE 1: LOGIN / SIGN UP -->
       <section class="page active" id="authPage" aria-labelledby="authTitle">
-        <div class="hero-grid">
-          <div class="glass-panel hero-copy">
+        <div class="hero-grid auth-landing-grid">
+          <aside class="glass-panel hero-copy auth-brand-panel">
             <div>
-              <div class="eyebrow">Soft neutral fit room prototype</div>
-              <h1 id="authTitle">Buy clothes with better size confidence.</h1>
+              <div class="auth-logo-card">
+                <img src="assets/FitCheck.png" alt="FitCheck Logo" class="auth-logo-large">
+              </div>
+
+              <div class="eyebrow">Check your fit</div>
+              <h1 id="authTitle">Buy with certainty, wear with confidence.</h1>
               <p class="lead">
-              FitCheck stores a user's body measurements, compares them with clothing item size charts,
-                and leaves a dedicated space for a future 3D body model that can preview how garments fit.
+                FitCheck stores your body measurements, compares them with clothing size charts,
+                and prepares a dedicated space for a future 3D body model that previews how garments fit your shape.
               </p>
             </div>
 
-          <div class="glass-panel auth-panel">
+            <div class="auth-description-grid" aria-label="FitCheck feature summary">
+              <div class="auth-description-card">
+                <strong>Save your profile</strong>
+                <span>Enter measurements once and use them across every fit check.</span>
+              </div>
+              <div class="auth-description-card">
+                <strong>Compare sizing</strong>
+                <span>Paste clothing measurements from shops before buying online.</span>
+              </div>
+              <div class="auth-description-card">
+                <strong>Preview later</strong>
+                <span>The dashboard is ready for a 3D model embed when you build it.</span>
+              </div>
+            </div>
+          </aside>
+
+          <div class="glass-panel auth-panel auth-card-panel">
+            <div class="auth-panel-heading">
+              <h2>Start your fit profile</h2>
+              <p>Create an account to add measurements, or log in to continue checking clothing sizes.</p>
+            </div>
+
             <div class="toast" id="authToast"></div>
 
             <div class="tab-switcher" role="tablist" aria-label="Authentication mode">
